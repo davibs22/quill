@@ -3,7 +3,6 @@ package service
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -110,7 +109,6 @@ func (l *LlamaClient) GenerateCommitMessage(diff string) (string, error) {
 	}
 
 	if !valid {
-		fmt.Printf("Generated commit message: %s\n", result.Response)
 		logger.InitLogger("pretty")
 		logger.L().Warning("The generated commit message doesn't follow Conventional Commits standards")
 		os.Exit(1)
