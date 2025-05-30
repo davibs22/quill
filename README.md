@@ -29,6 +29,13 @@ quill
 git commit -m "your commit message"
 ```
 
+## Build
+To build Quill, you'll need to have Go installed on your system.
+```bash
+go mod tidy
+go build -o quill
+```
+
 ## Git Hooks
 Quill integrates with Git hooks to automatically generate commit messages when you commit your changes.
 
