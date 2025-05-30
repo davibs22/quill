@@ -12,6 +12,7 @@ Quill is an open-source CLI tool that uses artificial intelligence to generate c
 **Quill provides:**
 - A command-line interface for generating commit messages.
 - Integration with the OpenAI API for AI-powered commit message generation.
+- Support for local models via Ollama for private, offline usage.
 - Easy-to-use interface for generating commit messages.
 
 ## Usage
