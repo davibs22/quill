@@ -48,7 +48,7 @@ generated_message=$(quill)
 
 echo "$generated_message" > "$1"
 ```
-Dê permissão de execução:
+Make it executable:
 ```bash
 chmod +x .git/hooks/prepare-commit-msg
 ```
