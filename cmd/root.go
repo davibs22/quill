@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 
+	"github.com/davibs22/quill/interfaces"
 	"github.com/davibs22/quill/service"
 	logger "github.com/kubescape/go-logger"
 	"github.com/spf13/cobra"
@@ -113,7 +114,7 @@ func runRoot(cmd *cobra.Command, args []string) error {
 		os.Exit(1)
 	}
 
-	var client service.LLMClient
+	var client interfaces.LLMClient
 	switch provider {
 	case "openai":
 		client = service.NewOpenAIClient(model)
