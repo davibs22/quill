@@ -40,7 +40,7 @@ go build -o quill
 Quill integrates with Git hooks to automatically generate commit messages when you commit your changes.
 
 
-Create the `.git/hooks/pre-commit` file with this content:
+Create the `.git/hooks/pre-commit-quill` file with this content:
 ```sh
 #!/bin/sh
 
