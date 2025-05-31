@@ -4,7 +4,7 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/davibs22/quill)
-![GitHub top language](https://img.shields.io/github/languages/top/davibs22/quill)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/stephenafamo/bob)
 
 
 Generate meaningful Git commit messages with AI effortlessly.
