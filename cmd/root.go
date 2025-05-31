@@ -26,6 +26,7 @@ func init() {
 	rootCmd.PersistentFlags().BoolP("version", "v", false, "Show version information")
 	configCmd.Flags().String("set-openai-model", "", "Sets the model for OpenAI (e.g.: gpt-4o-mini)")
 	configCmd.Flags().String("set-ollama-model", "", "Sets the model for Ollama (e.g.: llama3.2:latest)")
+	configCmd.Flags().String("set-ollama-api-url", "", "Sets the API key for Ollama")
 	configCmd.Flags().String("set-provider-default", "", "Sets the default provider (e.g.: openai|ollama)")
 	rootCmd.AddCommand(configCmd)
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
@@ -122,7 +123,7 @@ func runRoot(cmd *cobra.Command, args []string) error {
 	case "openai":
 		client = service.NewOpenAIClient(model)
 	case "ollama":
-		client = service.NewLlamaClient()
+		client = service.NewLlamaClient(model)
 	default:
 		return fmt.Errorf("invalid provider: %s", provider)
 	}

@@ -16,26 +16,22 @@ type LlamaClient struct {
 	model    string
 }
 
-func NewLlamaClient() *LlamaClient {
+func NewLlamaClient(model string) *LlamaClient {
 
 	endpoint := viper.GetString("preferences.ollama.apiUrl")
-	model := viper.GetString("preferences.ollama.model")
 
-	if endpoint == "" {
-		endpoint = os.Getenv("LLAMA_API_URL")
-	}
 	if model == "" {
-		model = os.Getenv("LLAMA_MODEL")
+		model = viper.GetString("preferences.ollama.model")
 	}
 
 	if endpoint == "" {
 		logger.InitLogger("pretty")
-		logger.L().Error("Ollama API URL not configured. Set preferences.ollama.apiUrl in config or LLAMA_API_URL in environment.")
+		logger.L().Error("Ollama API URL not configured. Set preferences.ollama.apiUrl in config or set --model flag.")
 		os.Exit(1)
 	}
 	if model == "" {
 		logger.InitLogger("pretty")
-		logger.L().Error("Ollama model not configured. Set preferences.ollama.model in config or LLAMA_MODEL in environment.")
+		logger.L().Error("Ollama model not configured. Set preferences.ollama.model in config or set --model flag.")
 		os.Exit(1)
 	}
 
