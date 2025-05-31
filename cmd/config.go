@@ -127,7 +127,7 @@ var configCmd = &cobra.Command{
 		if setProviderDefault != "" {
 			if setProviderDefault != "openai" && setProviderDefault != "ollama" {
 				logger.InitLogger("pretty")
-				logger.L().Error("Provider default must be 'openai' or 'ollama'")
+				logger.L().Error("Provider default must be 'openai' or 'ollama'.")
 				os.Exit(1)
 			}
 			viper.Set("preferences.providerDefault", setProviderDefault)
