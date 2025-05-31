@@ -106,7 +106,7 @@ func (l *LlamaClient) GenerateCommitMessage(diff string) (string, error) {
 
 	if !valid {
 		logger.InitLogger("pretty")
-		logger.L().Warning("The generated commit message doesn't follow Conventional Commits standards")
+		logger.L().Warning("The generated commit message doesn't follow Conventional Commits standards.")
 		os.Exit(1)
 	}
 
