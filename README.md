@@ -15,6 +15,17 @@ Quill is an open-source CLI tool that uses artificial intelligence to generate c
 - Support for local models via Ollama for private, offline usage.
 - Easy-to-use interface for generating commit messages.
 
+<div align="center">
+    <h2>LLM Compatibility</h2>
+    <div style="display: flex; justify-content: center;">  
+        <img alt="llm-support" height="80px" src="https://thewomenleaders.com/wp-content/uploads/2023/11/Sam-Altmans-Expected-Return-as-OpenAI-CEO-Falls-Through-Leaving-Leadership-Void.png">
+        <div style="background-color: #fff;display: flex;justify-content: center;align-items: center;gap: 10px;width: 142px;height: 80px;margin-left: 10px;">
+            <img alt="llm-support" height="40px" src="https://registry.npmmirror.com/@lobehub/icons-static-png/1.46.0/files/light/ollama.png">
+            <img alt="llm-support" height="22px" src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/ollama-text.png">
+        </div>
+    </div>
+</div>
+
 ## Usage
 1. Stage your changes:
 ```bash
