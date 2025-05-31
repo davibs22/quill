@@ -70,11 +70,6 @@ func initializeConfig(configPath string) error {
 	return nil
 }
 
-func editConfig(configPath string) error {
-	fmt.Println("Configuration editor will be implemented here.")
-	return nil
-}
-
 var configCmd = &cobra.Command{
 	Use:   "config",
 	Short: "Configure Quill",
@@ -86,7 +81,9 @@ var configCmd = &cobra.Command{
 			logger.L().Error("Failed to get config path.")
 			os.Exit(1)
 		}
-		if _, err := os.Stat(filepath.Join(configPath, configFile)); os.IsNotExist(err) {
+
+		fullPath := filepath.Join(configPath, configFile)
+		if _, err := os.Stat(fullPath); os.IsNotExist(err) {
 			logger.InitLogger("pretty")
 			logger.L().Warning(fmt.Sprintf("Config file not found at: %s", configPath))
 			return initializeConfig(configPath)
@@ -94,6 +91,6 @@ var configCmd = &cobra.Command{
 
 		logger.InitLogger("pretty")
 		logger.L().Info(fmt.Sprintf("Using config file at: %s", configPath))
-		return editConfig(configPath)
+		return nil
 	},
 }
