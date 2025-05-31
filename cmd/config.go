@@ -51,7 +51,7 @@ func initializeConfig(configPath string) error {
 			"apiKey": "",
 			"model":  "",
 		},
-		"llama": map[string]interface{}{
+		"ollama": map[string]interface{}{
 			"apiUrl": "",
 			"model":  "",
 		},
@@ -87,6 +87,56 @@ var configCmd = &cobra.Command{
 			logger.InitLogger("pretty")
 			logger.L().Warning(fmt.Sprintf("Config file not found at: %s", configPath))
 			return initializeConfig(configPath)
+		}
+
+		viper.SetConfigFile(fullPath)
+		if err := viper.ReadInConfig(); err != nil {
+			logger.InitLogger("pretty")
+			logger.L().Error(fmt.Sprintf("Failed to read config file: %s", err.Error()))
+			os.Exit(1)
+		}
+
+		setOpenAIModel, _ := cmd.Flags().GetString("set-openai-model")
+		setOllamaModel, _ := cmd.Flags().GetString("set-ollama-model")
+		setProviderDefault, _ := cmd.Flags().GetString("set-provider-default")
+
+		changes := 0
+
+		if setOpenAIModel != "" {
+			viper.Set("preferences.openai.model", setOpenAIModel)
+			logger.InitLogger("pretty")
+			logger.L().Info(fmt.Sprintf("Setting OpenAI model to: %s", setOpenAIModel))
+			changes++
+		}
+
+		if setOllamaModel != "" {
+			viper.Set("preferences.ollama.model", setOllamaModel)
+			logger.InitLogger("pretty")
+			logger.L().Info(fmt.Sprintf("Setting Ollama model to: %s", setOllamaModel))
+			changes++
+		}
+
+		if setProviderDefault != "" {
+			if setProviderDefault != "openai" && setProviderDefault != "ollama" {
+				logger.InitLogger("pretty")
+				logger.L().Error("Provider default must be 'openai' or 'ollama'")
+				os.Exit(1)
+			}
+			viper.Set("preferences.providerDefault", setProviderDefault)
+			logger.InitLogger("pretty")
+			logger.L().Info(fmt.Sprintf("Setting provider default to: %s", setProviderDefault))
+			changes++
+		}
+
+		if changes > 0 {
+			if err := viper.WriteConfig(); err != nil {
+				logger.InitLogger("pretty")
+				logger.L().Error(fmt.Sprintf("Failed to write updated config: %s", err.Error()))
+				os.Exit(1)
+			}
+			logger.InitLogger("pretty")
+			logger.L().Success("Config file successfully updated.")
+			return nil
 		}
 
 		logger.InitLogger("pretty")

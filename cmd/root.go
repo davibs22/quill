@@ -21,9 +21,12 @@ var (
 )
 
 func init() {
-	rootCmd.PersistentFlags().StringVar(&provider, "provider", "openai", "LLM provider: openai|llama")
+	rootCmd.PersistentFlags().StringVar(&provider, "provider", "openai", "LLM provider: openai|ollama")
 	rootCmd.PersistentFlags().StringVar(&model, "model", "gpt-4o", "Model name (used in OpenAI)")
 	rootCmd.PersistentFlags().BoolP("version", "v", false, "Show version information")
+	configCmd.Flags().String("set-openai-model", "", "Sets the model for OpenAI (e.g.: gpt-4o-mini)")
+	configCmd.Flags().String("set-ollama-model", "", "Sets the model for Ollama (e.g.: llama3.2:latest)")
+	configCmd.Flags().String("set-provider-default", "", "Sets the default provider (e.g.: openai|ollama)")
 	rootCmd.AddCommand(configCmd)
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
 	cobra.OnInitialize(initConfig)
@@ -71,7 +74,7 @@ func initConfig() {
 		p := viper.GetString("preferences.providerDefault")
 		if p != "" {
 			switch p {
-			case "openai", "llama":
+			case "openai", "ollama":
 				provider = p
 			default:
 				logger.InitLogger("pretty")
@@ -87,8 +90,8 @@ func initConfig() {
 				model = m
 			}
 		}
-		if provider == "llama" {
-			m := viper.GetString("preferences.llama.model")
+		if provider == "ollama" {
+			m := viper.GetString("preferences.ollama.model")
 			if m != "" {
 				model = m
 			}
@@ -118,7 +121,7 @@ func runRoot(cmd *cobra.Command, args []string) error {
 	switch provider {
 	case "openai":
 		client = service.NewOpenAIClient(model)
-	case "llama":
+	case "ollama":
 		client = service.NewLlamaClient()
 	default:
 		return fmt.Errorf("invalid provider: %s", provider)
