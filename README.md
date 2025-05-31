@@ -24,6 +24,19 @@ Quill is an open-source CLI tool that uses artificial intelligence to generate c
     <img alt="llm-support" height="80px" src="./assets/llm_logo/ollama.png">
 </p>
 
+---
+
+**Commit Message Convention**  
+> Quill uses the [Conventional Commits](https://www.conventionalcommits.org/) standard for formatting commit messages.  
+> Examples of conventional prefixes:  
+> ```
+> feat: adds new command for changelog generation
+> fix: fixes error handling in commit hook
+> chore: updates CI/CD dependencies
+> ```
+> Check the complete specification at: https://www.conventionalcommits.org/
+---
+
 ## Usage
 1. Stage your changes:
 ```bash
