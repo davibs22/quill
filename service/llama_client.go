@@ -18,8 +18,8 @@ type LlamaClient struct {
 
 func NewLlamaClient() *LlamaClient {
 
-	endpoint := viper.GetString("preferences.llama.apiUrl")
-	model := viper.GetString("preferences.llama.model")
+	endpoint := viper.GetString("preferences.ollama.apiUrl")
+	model := viper.GetString("preferences.ollama.model")
 
 	if endpoint == "" {
 		endpoint = os.Getenv("LLAMA_API_URL")
@@ -30,12 +30,12 @@ func NewLlamaClient() *LlamaClient {
 
 	if endpoint == "" {
 		logger.InitLogger("pretty")
-		logger.L().Error("Llama API URL não configurada. Defina preferences.llama.apiUrl no config ou LLAMA_API_URL no ambiente.")
+		logger.L().Error("Ollama API URL not configured. Set preferences.ollama.apiUrl in config or LLAMA_API_URL in environment.")
 		os.Exit(1)
 	}
 	if model == "" {
 		logger.InitLogger("pretty")
-		logger.L().Error("Llama model não configurado. Defina preferences.llama.model no config ou LLAMA_MODEL no ambiente.")
+		logger.L().Error("Ollama model not configured. Set preferences.ollama.model in config or LLAMA_MODEL in environment.")
 		os.Exit(1)
 	}
 
@@ -58,14 +58,14 @@ func (l *LlamaClient) GenerateCommitMessage(diff string) (string, error) {
 	body, err := json.Marshal(payload)
 	if err != nil {
 		logger.InitLogger("pretty")
-		logger.L().Error("Falha ao montar payload para Llama API.")
+		logger.L().Error("Failed to build payload for ollama API.")
 		os.Exit(1)
 	}
 
 	resp, err := http.Post(l.endpoint, "application/json", bytes.NewBuffer(body))
 	if err != nil {
 		logger.InitLogger("pretty")
-		logger.L().Error("Não foi possível conectar na Llama API. Verifique o endpoint.")
+		logger.L().Error("Could not connect to ollama API. Check the endpoint.")
 		os.Exit(1)
 	}
 	defer resp.Body.Close()
@@ -73,7 +73,7 @@ func (l *LlamaClient) GenerateCommitMessage(diff string) (string, error) {
 	data, err := io.ReadAll(resp.Body)
 	if err != nil {
 		logger.InitLogger("pretty")
-		logger.L().Error("Resposta inválida da Llama API.")
+		logger.L().Error("Invalid response from ollama API.")
 		os.Exit(1)
 	}
 
@@ -82,7 +82,7 @@ func (l *LlamaClient) GenerateCommitMessage(diff string) (string, error) {
 	}
 	if err := json.Unmarshal(data, &result); err != nil {
 		logger.InitLogger("pretty")
-		logger.L().Error("JSON inválido ou campo 'response' não encontrado.")
+		logger.L().Error("Invalid JSON or 'response' field not found.")
 		os.Exit(1)
 	}
 
