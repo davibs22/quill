@@ -1,8 +1,11 @@
-<div align="center">
+<div align="center" style="margin-bottom: 20px;">
     <img alt="quill-logo" height="100px" src="./assets/quill-logo.png">
 </div>
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/davibs22/quill)
+![GitHub top language](https://img.shields.io/github/languages/top/davibs22/quill)
+
 
 Generate meaningful Git commit messages with AI effortlessly.
 
