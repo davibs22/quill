@@ -97,6 +97,7 @@ var configCmd = &cobra.Command{
 		}
 
 		setOpenAIModel, _ := cmd.Flags().GetString("set-openai-model")
+		setOpenAIApiKey, _ := cmd.Flags().GetString("set-openai-api-key")
 		setOllamaModel, _ := cmd.Flags().GetString("set-ollama-model")
 		setOllamaApiUrl, _ := cmd.Flags().GetString("set-ollama-api-url")
 		setProviderDefault, _ := cmd.Flags().GetString("set-provider-default")
@@ -107,6 +108,13 @@ var configCmd = &cobra.Command{
 			viper.Set("preferences.openai.model", setOpenAIModel)
 			logger.InitLogger("pretty")
 			logger.L().Info(fmt.Sprintf("Setting OpenAI model to: %s", setOpenAIModel))
+			changes++
+		}
+
+		if setOpenAIApiKey != "" {
+			viper.Set("preferences.openai.apiKey", setOpenAIApiKey)
+			logger.InitLogger("pretty")
+			logger.L().Info("Setting OpenAI API key.")
 			changes++
 		}
 
