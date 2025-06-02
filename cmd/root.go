@@ -24,6 +24,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&provider, "provider", "openai", "LLM provider: openai|ollama")
 	rootCmd.PersistentFlags().StringVar(&model, "model", "gpt-4o", "Model name (used in OpenAI)")
 	rootCmd.PersistentFlags().BoolP("version", "v", false, "Show version information")
+	configCmd.Flags().String("set-openai-api-key", "", "Sets the API key for OpenAI")
 	configCmd.Flags().String("set-openai-model", "", "Sets the model for OpenAI (e.g.: gpt-4o-mini)")
 	configCmd.Flags().String("set-ollama-model", "", "Sets the model for Ollama (e.g.: llama3.2:latest)")
 	configCmd.Flags().String("set-ollama-api-url", "", "Sets the API url for Ollama")
