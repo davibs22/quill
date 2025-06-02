@@ -40,6 +40,49 @@ Quill is an open-source CLI tool that uses artificial intelligence to generate c
 > Check the complete specification at: https://www.conventionalcommits.org/
 ---
 
+## Build
+To build Quill, you'll need to have Go installed on your system.
+```bash
+go mod tidy
+go build -o quill
+```
+
+## Quill Configuration
+To configure Quill, follow the steps below:
+
+1. **Create a configuration file:**
+   Quill uses a `config.yaml` configuration file. You can create a default configuration file in your user directory, or run the command below and let Quill create it for you:
+   ```bash
+   quill config
+   ```
+   Whenever you run the `quill config` command, Quill will create a default configuration file in your user directory if the file doesn't exist.
+   
+   The file path varies according to the operating system:
+   - **Linux:** `~/.config/quill/config.yaml`
+   - **Windows:** `%APPDATA%/quill/config.yaml`
+   - **macOS:** `~/.quill/config.yaml`
+
+   Example of `config.yaml` file content:
+   ```yaml
+   preferences:
+     openai:
+       apikey: "your-api-key-here"
+       model: "gpt-4o-mini"
+     ollama:
+       apiUrl: "http://localhost:11434/api/generate"
+       model: "llama3.2"
+     providerDefault: "openai"
+   ```
+
+4. **Set your credentials:**
+   You can set the OpenAI API key and default model using the commands:
+   ```bash
+   quill config --set-openai-api-key "your-api-key-here"
+   quill config --set-openai-model "gpt-4o-mini"
+   quill config --set-provider-default "openai"
+   ```
+
+Now you're ready to use Quill to generate meaningful commit messages with AI help!
 ## Usage
 1. Stage your changes:
 ```bash
@@ -52,13 +95,6 @@ quill
 3. Commit your changes:
 ```bash
 git commit -m "your commit message"
-```
-
-## Build
-To build Quill, you'll need to have Go installed on your system.
-```bash
-go mod tidy
-go build -o quill
 ```
 
 ## Git Hooks
