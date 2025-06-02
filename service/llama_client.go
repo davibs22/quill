@@ -112,3 +112,8 @@ func (l *LlamaClient) GenerateCommitMessage(diff string) (string, error) {
 
 	return result.Response, nil
 }
+
+func (o *LlamaClient) GenerateBranchName(diff string) (string, error) {
+
+	return "feature/generated-branch-name", nil
+}
