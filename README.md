@@ -1,6 +1,7 @@
-<div align="center" style="margin-bottom: 20px;">
+<div align="center">
     <img alt="quill-logo" height="100px" src="./assets/quill-logo.png">
 </div>
+<br/>
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/davibs22/quill)
@@ -74,6 +75,10 @@ To configure Quill, follow the steps below:
    Example of `config.yaml` file content:
    ```yaml
    preferences:
+     azure:
+       apikey: "your-api-key-here"
+       company: nike
+       project: super-tenis
      openai:
        apikey: "your-api-key-here"
        model: "gpt-4o-mini"
@@ -92,7 +97,7 @@ To configure Quill, follow the steps below:
    ```
 
 Now you're ready to use Quill to generate meaningful commit messages with AI help!
-## Usage
+## Usage Genarate Commit Message
 1. Stage your changes:
 ```bash
 git add .
@@ -104,6 +109,18 @@ quill
 3. Commit your changes:
 ```bash
 git commit -m "your commit message"
+```
+
+## Use Generate Branch Name
+1. Generate a branch name:
+```bash
+quill branch --alm azure --ticket 123456
+```
+2. Quill returns a branch name like this: `feature/123456-your-branch-name`
+
+3. Create a branch:
+```bash
+git checkout -b feature/123456-your-branch-name
 ```
 
 ## Git Hooks
