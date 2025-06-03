@@ -1,6 +1,7 @@
-<div align="center" style="margin-bottom: 20px;">
+<div align="center">
     <img alt="quill-logo" height="100px" src="./assets/quill-logo.png">
 </div>
+<br/>
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/davibs22/quill)
