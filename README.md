@@ -28,6 +28,14 @@ Quill is an open-source CLI tool that uses artificial intelligence to generate c
     <img alt="llm-support" height="80px" src="./assets/llm_logo/ollama.png">
 </p>
 
+<div align="center">
+    <h2>Integrations</h2>
+</div>
+
+<p align="center">
+    <img alt="llm-support" height="80px" src="./assets/llm_logo/azure_dev_ops.png" style="margin-right: 10px;">
+</p>
+
 ---
 
 **Commit Message Convention**  
