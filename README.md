@@ -20,6 +20,16 @@ Quill is an open-source CLI tool that uses artificial intelligence to generate c
 - Easy-to-use interface for generating commit messages.
 
 <div align="center">
+    <h2>OS Compatibility</h2>
+</div>
+
+<p align="center">
+    <img alt="llm-support" height="80px" src="./assets/os_logo/linux.png" style="margin-right: 10px;">
+    <img alt="llm-support" height="80px" src="./assets/os_logo/macos.png" style="margin-right: 10px;">
+    <img alt="llm-support" height="80px" src="./assets/os_logo/windows.png">
+</p>
+
+<div align="center">
     <h2>LLM Compatibility</h2>
 </div>
 
