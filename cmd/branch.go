@@ -1,18 +1,15 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 
+	"github.com/davibs22/quill/interfaces"
 	"github.com/davibs22/quill/service"
 	logger "github.com/kubescape/go-logger"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
-
-type branchNameResponse struct {
-	BranchName string `json:"branchName"`
-}
 
 var branchCmd = &cobra.Command{
 	Use:   "branch",
@@ -48,13 +45,41 @@ var branchCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		client := service.NewLlamaClient(model)
-		if err != nil {
-			logger.InitLogger("pretty")
-			logger.L().Error("Could not create client Ollama.")
-			os.Exit(1)
+		if !rootCmd.PersistentFlags().Changed("provider") {
+			p := viper.GetString("preferences.providerDefault")
+			if p != "" {
+				switch p {
+				case "openai", "ollama":
+					provider = p
+				default:
+					logger.InitLogger("pretty")
+					logger.L().Error(fmt.Sprintf("Invalid provider in config: %s", p))
+					os.Exit(1)
+				}
+			}
 		}
 
+		var client interfaces.LLMClient
+		switch provider {
+		case "ollama":
+			client = service.NewLlamaClient(model)
+			if err != nil {
+				logger.InitLogger("pretty")
+				logger.L().Error("Could not create client Ollama.")
+				os.Exit(1)
+			}
+		case "openai":
+			client = service.NewOpenAIClient(model)
+			if err != nil {
+				logger.InitLogger("pretty")
+				logger.L().Error("Could not create OpenAI client.")
+				os.Exit(1)
+			}
+		default:
+			logger.InitLogger("pretty")
+			logger.L().Error("Invalid provider specified. Use 'ollama' or 'openai'.")
+			os.Exit(1)
+		}
 		branchName, err := client.GenerateBranchName(workItemDetails, ticket, workItemTitle)
 		if err != nil {
 			logger.InitLogger("pretty")
@@ -62,14 +87,7 @@ var branchCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		var bn branchNameResponse
-		if err := json.Unmarshal([]byte(branchName), &bn); err != nil {
-			logger.InitLogger("pretty")
-			logger.L().Error("Error unmarshalling response body from Azure DevOps API.")
-			os.Exit(1)
-		}
-
-		fmt.Printf(bn.BranchName)
+		fmt.Println(branchName)
 		return nil
 	},
 }

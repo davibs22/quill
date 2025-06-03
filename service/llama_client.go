@@ -158,6 +158,31 @@ WorkItem_Description: %s
 			},
 		},
 	}
+
+	fmt.Printf(`You are an assistant that generates concise Azure DevOps branch names.
+Given a Work Item description and its ID, return only a branch name following this pattern:
+
+    <Type>/<WorkItemID>-<short_description_in_snake_case>
+
+Rules:
+1. Type must be "Feat" if the Work Item introduces a new feature, or "Fix" if it is a bug fix.
+2. Use underscores ("_") to separate words in <short_description_in_snake_case>.
+3. The name must be short, in English, and summarize the purpose of the task.
+4. Do not include any additional details or formatting: only return the branch string.
+5. The branch name must always be in English. This is an important and inviolable rule that must be respected.
+
+Example:
+- WorkItem_ID: 859652
+- Description: "Create a new screen for user login validation"
+Expected response:
+- Feat/859652-create_new_screen
+
+Now, using the Work Item below, generate only the branch name in English (without any additional formatting):
+
+WorkItem_ID: %s
+WorkItem_Title: %s
+WorkItem_Description: %s
+`, workItemId, workItemTitle, workItem)
 	body, err := json.Marshal(payload)
 	if err != nil {
 		logger.InitLogger("pretty")
