@@ -3,6 +3,7 @@ package service
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -113,7 +114,79 @@ func (l *LlamaClient) GenerateCommitMessage(diff string) (string, error) {
 	return result.Response, nil
 }
 
-func (o *LlamaClient) GenerateBranchName(diff string) (string, error) {
+func (o *LlamaClient) GenerateBranchName(workItem string, workItemId string, workItemTitle string) (string, error) {
+	payload := map[string]interface{}{
+		"model": o.model,
+		"prompt": fmt.Sprintf(`You are an assistant that generates concise Azure DevOps branch names.
+Given a Work Item description and its ID, return only a branch name following this pattern:
 
-	return "feature/generated-branch-name", nil
+    <Type>/<WorkItemID>-<short_description_in_snake_case>
+
+Rules:
+1. Type must be "Feat" if the Work Item introduces a new feature, or "Fix" if it is a bug fix.
+2. Use underscores ("_") to separate words in <short_description_in_snake_case>.
+3. The name must be short, in English, and summarize the purpose of the task.
+4. Do not include any additional details or formatting: only return the branch string.
+5. The branch name must always be in English. This is an important and inviolable rule that must be respected.
+
+Example:
+- WorkItem_ID: 859652
+- Description: "Create a new screen for user login validation"
+Expected response:
+- Feat/859652-create_new_screen
+
+Now, using the Work Item below, generate only the branch name in English (without any additional formatting):
+
+WorkItem_ID: %s
+WorkItem_Title: %s
+WorkItem_Description: %s
+`, workItemId, workItemTitle, workItem),
+		"max_tokens": 100,
+		"options": map[string]interface{}{
+			"temperature": 0.0,
+		},
+		"stream": false,
+		"format": map[string]interface{}{
+			"type": "object",
+			"properties": map[string]interface{}{
+				"branchName": map[string]interface{}{
+					"type": "string",
+				},
+			},
+			"required": []string{
+				"branchName",
+			},
+		},
+	}
+	body, err := json.Marshal(payload)
+	if err != nil {
+		logger.InitLogger("pretty")
+		logger.L().Error("Failed to build payload for ollama API.")
+		os.Exit(1)
+	}
+	resp, err := http.Post(o.endpoint, "application/json", bytes.NewBuffer(body))
+	if err != nil {
+		logger.InitLogger("pretty")
+		logger.L().Error("Could not connect to ollama API. Check the endpoint.")
+		os.Exit(1)
+	}
+	defer resp.Body.Close()
+
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		logger.InitLogger("pretty")
+		logger.L().Error("Invalid response from ollama API.")
+		os.Exit(1)
+	}
+
+	var result struct {
+		Response string `json:"response"`
+	}
+	if err := json.Unmarshal(data, &result); err != nil {
+		logger.InitLogger("pretty")
+		logger.L().Error("Invalid JSON or 'response' field not found.")
+		os.Exit(1)
+	}
+
+	return result.Response, nil
 }

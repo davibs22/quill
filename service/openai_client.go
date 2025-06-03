@@ -50,7 +50,7 @@ func (o *OpenAIClient) GenerateCommitMessage(diff string) (string, error) {
 	return resp.Choices[0].Message.Content, nil
 }
 
-func (o *OpenAIClient) GenerateBranchName(diff string) (string, error) {
+func (o *OpenAIClient) GenerateBranchName(workItem string, workItemId string, workItemTitle string) (string, error) {
 
 	return "feature/generated-branch-name", nil
 }
