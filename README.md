@@ -8,7 +8,6 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/stephenafamo/bob)
 ![GitHub Release](https://img.shields.io/github/v/release/davibs22/quill)
 
-
 Generate meaningful Git commit messages with AI effortlessly.
 
 ## Overview
@@ -19,6 +18,16 @@ Quill is an open-source CLI tool that uses artificial intelligence to generate c
 - Integration with the OpenAI API for AI-powered commit message generation.
 - Support for local models via Ollama for private, offline usage.
 - Easy-to-use interface for generating commit messages.
+
+<div align="center">
+    <h2>OS Compatibility</h2>
+</div>
+
+<p align="center">
+    <img alt="llm-support" height="80px" src="./assets/os_logo/linux.png" style="margin-right: 10px;">
+    <img alt="llm-support" height="80px" src="./assets/os_logo/macos.png" style="margin-right: 10px;">
+    <img alt="llm-support" height="80px" src="./assets/os_logo/windows.png">
+</p>
 
 <div align="center">
     <h2>LLM Compatibility</h2>
@@ -110,6 +119,7 @@ quill
 ```bash
 git commit -m "your commit message"
 ```
+![Quill Usage Example Gif](./assets/gif/example_quill.gif)
 
 ## Use Generate Branch Name
 1. Generate a branch name:
