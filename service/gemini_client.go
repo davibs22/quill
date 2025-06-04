@@ -55,8 +55,11 @@ func (g *GeminiClient) GenerateCommitMessage(diff string) (string, error) {
 		context.Background(),
 		g.model,
 		genai.Text(prompt),
-		nil,
+		&genai.GenerateContentConfig{
+			Temperature: genai.Ptr[float32](0.2),
+		},
 	)
+
 	if err != nil {
 		logger.InitLogger("pretty")
 		logger.L().Error("Could not establish connection with Gemini API. Please verify if your API key is correct.")
