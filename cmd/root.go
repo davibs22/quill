@@ -77,7 +77,7 @@ func initConfig() {
 		p := viper.GetString("preferences.providerDefault")
 		if p != "" {
 			switch p {
-			case "openai", "ollama":
+			case "openai", "ollama", "gemini":
 				provider = p
 			default:
 				logger.InitLogger("pretty")
