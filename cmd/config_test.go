@@ -31,7 +31,7 @@ func TestConfigFlags(t *testing.T) {
 	cmd.Flags().Set("set-openai-api-key", "sk-1234567890")
 	err = cmd.Execute()
 	assert.NoError(t, err)
-	assert.Equal(t, "sk-1234567890", viper.GetString("preferences.openai.apiKey"))
+	assert.Equal(t, "sk-1234567890", viper.GetString("preferences.openai.apikey"))
 
 	cmd.Flags().Set("set-openai-model", "gpt-4o-mini")
 	err = cmd.Execute()
