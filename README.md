@@ -77,7 +77,7 @@ To configure Quill, follow the steps below:
    ```yaml
    preferences:
      openai:
-       apikey: "your-api-key-here"
+       apiKey: "your-api-key-here"
        model: "gpt-4o-mini"
      ollama:
        apiUrl: "http://localhost:11434/api/generate"

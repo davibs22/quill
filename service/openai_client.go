@@ -17,12 +17,12 @@ type OpenAIClient struct {
 }
 
 func NewOpenAIClient(model string) *OpenAIClient {
-	apiKey := viper.GetString("preferences.openai.apikey")
+	apiKey := viper.GetString("preferences.openai.apiKey")
 	cli := openai.NewClient(option.WithAPIKey(apiKey))
 
 	if apiKey == "" {
 		logger.InitLogger("pretty")
-		logger.L().Error("OpenAI API key not configured. Set preferences.openai.apikey in config or set --apikey flag.")
+		logger.L().Error("OpenAI API key not configured. Set preferences.openai.apiKey in config or set --apikey flag.")
 		os.Exit(1)
 	}
 
