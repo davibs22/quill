@@ -15,18 +15,18 @@ var branchCmd = &cobra.Command{
 	Use:   "branch",
 	Short: "Generate a branch name based on the staged changes",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		alm, _ := cmd.Flags().GetString("alm")
+		tracker, _ := cmd.Flags().GetString("tracker")
 		ticket, _ := cmd.Flags().GetString("ticket")
 
-		if alm == "" {
+		if tracker == "" {
 			logger.InitLogger("pretty")
-			logger.L().Error("ALM not specified.")
+			logger.L().Error("Issue tracker not specified.")
 			os.Exit(1)
 		}
 
-		if alm != "azure" {
+		if tracker != "azure" {
 			logger.InitLogger("pretty")
-			logger.L().Error("ALM not supported.")
+			logger.L().Error("Issue tracker not supported.")
 			os.Exit(1)
 		}
 
