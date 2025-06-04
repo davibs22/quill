@@ -29,7 +29,7 @@ func init() {
 	configCmd.Flags().String("set-ollama-model", "", "Sets the model for Ollama (e.g.: llama3.2:latest)")
 	configCmd.Flags().String("set-ollama-api-url", "", "Sets the API url for Ollama")
 	configCmd.Flags().String("set-provider-default", "", "Sets the default provider (e.g.: openai|ollama)")
-	branchCmd.Flags().String("alm", "", "ALM provider: azure")
+	branchCmd.Flags().String("tracker", "", "Issue tracker provider: azure")
 	branchCmd.Flags().String("ticket", "", "Ticket ID")
 	rootCmd.AddCommand(configCmd)
 	rootCmd.AddCommand(branchCmd)
