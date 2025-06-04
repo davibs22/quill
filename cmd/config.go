@@ -48,7 +48,7 @@ func initializeConfig(configPath string) error {
 	viper.Set("preferences", map[string]interface{}{
 		"providerDefault": "",
 		"openai": map[string]interface{}{
-			"apiKey": "",
+			"apikey": "",
 			"model":  "",
 		},
 		"ollama": map[string]interface{}{
@@ -56,7 +56,7 @@ func initializeConfig(configPath string) error {
 			"model":  "",
 		},
 		"gemini": map[string]interface{}{
-			"apiKey": "",
+			"apikey": "",
 			"model":  "",
 		},
 	})
@@ -117,7 +117,7 @@ var configCmd = &cobra.Command{
 		}
 
 		if setOpenAIApiKey != "" {
-			viper.Set("preferences.openai.apiKey", setOpenAIApiKey)
+			viper.Set("preferences.openai.apikey", setOpenAIApiKey)
 			logger.InitLogger("pretty")
 			logger.L().Info("Setting OpenAI API key.")
 			changes++
