@@ -22,7 +22,7 @@ var (
 
 func init() {
 	rootCmd.PersistentFlags().StringVar(&provider, "provider", "openai", "LLM provider: openai|ollama")
-	rootCmd.PersistentFlags().StringVar(&model, "model", "gpt-4o", "Model name (used in OpenAI)")
+	rootCmd.PersistentFlags().StringVarP(&model, "model", "m", "gpt-4o", "Model name (used in OpenAI)")
 	rootCmd.PersistentFlags().BoolP("version", "v", false, "Show version information")
 	configCmd.Flags().String("set-openai-api-key", "", "Sets the API key for OpenAI")
 	configCmd.Flags().String("set-openai-model", "", "Sets the model for OpenAI (e.g.: gpt-4o-mini)")
