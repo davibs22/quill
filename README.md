@@ -85,7 +85,7 @@ To configure Quill, follow the steps below:
      providerDefault: "openai"
    ```
 
-4. **Set your credentials:**
+2. **Set your credentials:**
    You can set the OpenAI API key and default model using the commands:
    ```bash
    quill config --set-openai-api-key "your-api-key-here"
