@@ -28,7 +28,8 @@ func init() {
 	configCmd.Flags().String("set-openai-model", "", "Sets the model for OpenAI (e.g.: gpt-4o-mini)")
 	configCmd.Flags().String("set-ollama-model", "", "Sets the model for Ollama (e.g.: llama3.2:latest)")
 	configCmd.Flags().String("set-ollama-api-url", "", "Sets the API url for Ollama")
-	configCmd.Flags().String("set-provider-default", "", "Sets the default provider (e.g.: openai|ollama)")
+	configCmd.Flags().String("set-gemini-model", "", "Sets the model for Gemini (e.g.: gemini-2.0-flash)")
+	configCmd.Flags().String("set-provider-default", "", "Sets the default provider (e.g.: openai|ollama|gemini)")
 	rootCmd.AddCommand(configCmd)
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
 	cobra.OnInitialize(initConfig)
@@ -98,6 +99,12 @@ func initConfig() {
 				model = m
 			}
 		}
+		if provider == "gemini" {
+			m := viper.GetString("preferences.gemini.model")
+			if m != "" {
+				model = m
+			}
+		}
 	}
 }
 
@@ -125,8 +132,12 @@ func runRoot(cmd *cobra.Command, args []string) error {
 		client = service.NewOpenAIClient(model)
 	case "ollama":
 		client = service.NewLlamaClient(model)
+	case "gemini":
+		client = service.NewGeminiClient(model)
 	default:
-		return fmt.Errorf("invalid provider: %s", provider)
+		logger.InitLogger("pretty")
+		logger.L().Error("Invalid provider.")
+		os.Exit(1)
 	}
 
 	msg, err := client.GenerateCommitMessage(string(diffOut))

@@ -55,6 +55,10 @@ func initializeConfig(configPath string) error {
 			"apiUrl": "",
 			"model":  "",
 		},
+		"gemini": map[string]interface{}{
+			"apiKey": "",
+			"model":  "",
+		},
 	})
 
 	configFile := filepath.Join(configPath, "config.yaml")
@@ -100,6 +104,7 @@ var configCmd = &cobra.Command{
 		setOpenAIApiKey, _ := cmd.Flags().GetString("set-openai-api-key")
 		setOllamaModel, _ := cmd.Flags().GetString("set-ollama-model")
 		setOllamaApiUrl, _ := cmd.Flags().GetString("set-ollama-api-url")
+		setGeminiModel, _ := cmd.Flags().GetString("set-gemini-model")
 		setProviderDefault, _ := cmd.Flags().GetString("set-provider-default")
 
 		changes := 0
@@ -129,6 +134,13 @@ var configCmd = &cobra.Command{
 			viper.Set("preferences.ollama.apiUrl", setOllamaApiUrl)
 			logger.InitLogger("pretty")
 			logger.L().Info(fmt.Sprintf("Setting Ollama API URL to: %s", setOllamaApiUrl))
+			changes++
+		}
+
+		if setGeminiModel != "" {
+			viper.Set("preferences.gemini.model", setGeminiModel)
+			logger.InitLogger("pretty")
+			logger.L().Info(fmt.Sprintf("Setting Gemini model to: %s", setGeminiModel))
 			changes++
 		}
 
