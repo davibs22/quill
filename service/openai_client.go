@@ -22,7 +22,7 @@ func NewOpenAIClient(model string) *OpenAIClient {
 
 	if apiKey == "" {
 		logger.InitLogger("pretty")
-		logger.L().Error("OpenAI API key not configured. Set preferences.openai.apiKey in config or set --apikey flag.")
+		logger.L().Error("OpenAI API key not configured. Run `quill config --set-openai-api-key` or edit the config file.")
 		os.Exit(1)
 	}
 
