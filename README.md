@@ -8,7 +8,6 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/stephenafamo/bob)
 ![GitHub Release](https://img.shields.io/github/v/release/davibs22/quill)
 
-
 Generate meaningful Git commit messages with AI effortlessly.
 
 ## Overview
@@ -108,6 +107,8 @@ quill
 ```bash
 git commit -m "your commit message"
 ```
+
+![Quill Usage Example Gif](./assets/gif/example_quill.gif)
 
 ## Git Hooks
 Quill integrates with Git hooks to automatically generate commit messages when you commit your changes.
