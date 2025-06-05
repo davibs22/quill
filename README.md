@@ -18,6 +18,7 @@ Quill is an open-source CLI tool that uses artificial intelligence to generate c
 - Integration with the OpenAI API for AI-powered commit message generation.
 - Support for local models via Ollama for private, offline usage.
 - Easy-to-use interface for generating commit messages.
+- Integration with Azure DevOps for automatic branch name generation.
 
 <div align="center">
     <h2>OS Compatibility</h2>
@@ -44,6 +45,9 @@ Quill is an open-source CLI tool that uses artificial intelligence to generate c
 
 <p align="center">
     <img alt="tracker-integrations" height="80px" src="./assets/llm_logo/azure_dev_ops.png" style="margin-right: 10px;">
+</p>
+<p align="center">
+    <em>Generate branch names directly from Azure DevOps Work Items.</em>
 </p>
 
 ---
@@ -97,6 +101,8 @@ To configure Quill, follow the steps below:
      providerDefault: "openai"
    ```
 
+   The `azure` section is required if you want Quill to generate branch names based on Azure DevOps Work Items. Fill it with your personal access token, company name and project.
+
 4. **Set your credentials:**
    You can set the OpenAI API key and default model using the commands:
    ```bash
@@ -106,7 +112,7 @@ To configure Quill, follow the steps below:
    ```
 
 Now you're ready to use Quill to generate meaningful commit messages with AI help!
-## Usage Genarate Commit Message
+## Usage Generate Commit Message
 1. Stage your changes:
 ```bash
 git add .
@@ -121,17 +127,19 @@ git commit -m "your commit message"
 ```
 ![Quill Usage Example Gif](./assets/gif/example_quill.gif)
 
-## Use Generate Branch Name
-1. Generate a branch name:
+## Generate Branch Name using Azure DevOps
+1. Generate a branch name from a Work Item:
 ```bash
 quill branch --tracker azure --ticket 123456
 ```
-2. Quill returns a branch name like this: `feature/123456-your-branch-name`
+2. Quill returns a branch name like this: `Feat/123456-short_description`
 
 3. Create a branch:
 ```bash
-git checkout -b feature/123456-your-branch-name
+git checkout -b Feat/123456-short_description
 ```
+
+The command retrieves the Work Item details from Azure DevOps using the values defined in your `config.yaml` and then asks the selected LLM provider to suggest a short, English branch name.
 
 ## Git Hooks
 Quill integrates with Git hooks to automatically generate commit messages when you commit your changes.
