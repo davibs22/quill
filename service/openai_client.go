@@ -86,11 +86,11 @@ WorkItem_Description: %s
 			Messages: []openai.ChatCompletionMessageParamUnion{
 				openai.UserMessage(prompt),
 			},
-			Model:       o.model,
-			Temperature: openai.Float(0.2),
+			Model: o.model,
 		},
 	)
 	if err != nil {
+		fmt.Printf("Error: %v\n", err)
 		logger.InitLogger("pretty")
 		logger.L().Error("Could not establish connection with LLM provider. Please verify if your API key is correct and if you are connected to the internet.")
 		os.Exit(1)
