@@ -113,7 +113,7 @@ func runRoot(cmd *cobra.Command, args []string) error {
 		logger.L().Error("No changes found in Git.")
 		os.Exit(1)
 	}
-	if len(diffOut) > 10000 {
+	if len(diffOut) > 1000000 {
 		logger.InitLogger("pretty")
 		logger.L().Error("Diff is too large. Please reduce the number of changes.")
 		os.Exit(1)
