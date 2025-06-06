@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var version = "0.1.0"
+var version = "0.1.1"
 
 var (
 	provider string
