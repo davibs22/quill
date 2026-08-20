@@ -2,7 +2,9 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"net/http"
 	"os"
 
 	logger "github.com/kubescape/go-logger"
@@ -33,6 +35,26 @@ func NewOpenAIClient(model string) *OpenAIClient {
 	return &OpenAIClient{client: cli, model: model}
 }
 
+func exitWithOpenAIError(err error) {
+	logger.InitLogger("pretty")
+
+	var apiErr *openai.Error
+	if errors.As(err, &apiErr) {
+		switch apiErr.StatusCode {
+		case http.StatusTooManyRequests:
+			logger.L().Error(fmt.Sprintf("OpenAI rejected the request for exceeding the account limits: %s", apiErr.Message))
+		case http.StatusUnauthorized, http.StatusForbidden:
+			logger.L().Error("OpenAI refused the credentials. Check preferences.openai.apikey in config or the --apikey flag.")
+		default:
+			logger.L().Error(fmt.Sprintf("OpenAI request failed with status %d: %s", apiErr.StatusCode, apiErr.Message))
+		}
+		os.Exit(1)
+	}
+
+	logger.L().Error("Could not establish connection with LLM provider. Please verify if your API key is correct and if you are connected to the internet.")
+	os.Exit(1)
+}
+
 func (o *OpenAIClient) GenerateCommitMessage(diff string) (string, error) {
 	prompt := fmt.Sprintf("Analyze the following code changes and generate a commit message following the Conventional Commits standard. The message should:\n\n1. Start with a conventional type (feat, fix, docs, style, refactor, perf, test, chore)\n2. Include an optional scope in parentheses when applicable\n3. Have a concise description in imperative mood (e.g., \"change\" → \"change X to do Y\")\n4. The message language should be in English.\n\nReturn ONLY the commit message itself, without any additional explanations or commentary.\n\nChanges:\n\n%s", diff)
 
@@ -46,15 +68,15 @@ func (o *OpenAIClient) GenerateCommitMessage(diff string) (string, error) {
 		},
 	)
 	if err != nil {
-		logger.InitLogger("pretty")
-		logger.L().Error("Could not establish connection with LLM provider. Please verify if your API key is correct and if you are connected to the internet.")
-		os.Exit(1)
+		exitWithOpenAIError(err)
 	}
 
 	return resp.Choices[0].Message.Content, nil
 }
 
 func (o *OpenAIClient) GenerateBranchName(workItem string, workItemId string, workItemTitle string) (string, error) {
+	workItem = truncateRunes(sanitizeRichText(workItem), maxWorkItemDescriptionRunes)
+
 	prompt := fmt.Sprintf(`You are an assistant that generates concise Azure DevOps branch names.
 Given a Work Item description and its ID, return only a branch name following this pattern:
 
@@ -90,10 +112,7 @@ WorkItem_Description: %s
 		},
 	)
 	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-		logger.InitLogger("pretty")
-		logger.L().Error("Could not establish connection with LLM provider. Please verify if your API key is correct and if you are connected to the internet.")
-		os.Exit(1)
+		exitWithOpenAIError(err)
 	}
 
 	return resp.Choices[0].Message.Content, nil

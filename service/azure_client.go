@@ -93,7 +93,7 @@ func (a *AzureClient) WorkItemDetails(workItemId string) (string, string, error)
 
 	if res.StatusCode != http.StatusOK {
 		logger.InitLogger("pretty")
-		logger.L().Error("Error getting work item details from Azure DevOps API.")
+		logger.L().Error(fmt.Sprintf("Error getting work item details from Azure DevOps API (status %d).", res.StatusCode))
 		os.Exit(1)
 	}
 
@@ -111,8 +111,9 @@ func (a *AzureClient) WorkItemDetails(workItemId string) (string, string, error)
 		os.Exit(1)
 	}
 
-	title := wi.Fields.Title
-	description := wi.Fields.Description + "\n\n" + wi.Fields.AcceptanceCriteria
+	title := sanitizeRichText(wi.Fields.Title)
+	description := sanitizeRichText(wi.Fields.Description + "\n\n" + wi.Fields.AcceptanceCriteria)
+	description = truncateRunes(description, maxWorkItemDescriptionRunes)
 
 	return description, title, nil
 }
