@@ -34,19 +34,19 @@ func NewAzureClient(workItemId string) *AzureClient {
 
 	if apiKey == "" {
 		logger.InitLogger("pretty")
-		logger.L().Error("Azure API key not configured. Set preferences.azure.apikey in config or set --azure-apikey flag.")
+		logger.L().Error("Azure API key not configured. Set preferences.azure.apikey in config.")
 		os.Exit(1)
 	}
 
 	if company == "" {
 		logger.InitLogger("pretty")
-		logger.L().Error("Azure company not configured. Set preferences.azure.company in config or set --azure-company flag.")
+		logger.L().Error("Azure company not configured. Set preferences.azure.company in config.")
 		os.Exit(1)
 	}
 
 	if project == "" {
 		logger.InitLogger("pretty")
-		logger.L().Error("Azure project not configured. Set preferences.azure.project in config or set --azure-project flag.")
+		logger.L().Error("Azure project not configured. Set preferences.azure.project in config.")
 		os.Exit(1)
 	}
 
@@ -72,7 +72,7 @@ func (a *AzureClient) WorkItemDetails(workItemId string) (string, string, error)
 	pat := a.apiKey
 	if pat == "" {
 		logger.InitLogger("pretty")
-		logger.L().Error("Azure API key not configured. Set preferences.azure.apikey in config or set --azure-apikey flag.")
+		logger.L().Error("Azure API key not configured. Set preferences.azure.apikey in config.")
 		os.Exit(1)
 	}
 

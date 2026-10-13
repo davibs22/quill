@@ -13,7 +13,7 @@ import (
 
 var branchCmd = &cobra.Command{
 	Use:   "branch",
-	Short: "Generate a branch name based on the staged changes",
+	Short: "Generate a branch name from an Azure DevOps Work Item",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		tracker, _ := cmd.Flags().GetString("tracker")
 		ticket, _ := cmd.Flags().GetString("ticket")
@@ -63,18 +63,8 @@ var branchCmd = &cobra.Command{
 		switch provider {
 		case "ollama":
 			client = service.NewLlamaClient(model)
-			if err != nil {
-				logger.InitLogger("pretty")
-				logger.L().Error("Could not create client Ollama.")
-				os.Exit(1)
-			}
 		case "openai":
 			client = service.NewOpenAIClient(model)
-			if err != nil {
-				logger.InitLogger("pretty")
-				logger.L().Error("Could not create OpenAI client.")
-				os.Exit(1)
-			}
 		default:
 			logger.InitLogger("pretty")
 			logger.L().Error("Invalid provider specified. Use 'ollama' or 'openai'.")
